@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
+    "django_filters",
     "drf_yasg",
     "allauth",
     "allauth.account",
@@ -144,4 +145,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # swagger
 SWAGGER_SETTINGS = {
     "DEFAULT_INFO": "core.urls.api_info",
+}
+
+# drf
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 100,
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
 }

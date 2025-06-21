@@ -13,7 +13,15 @@ urlpatterns = [
                 [
                     path("auth/", include("dj_rest_auth.urls")),
                     path(
-                        "auth/registration/", include("dj_rest_auth.registration.urls")
+                        "auth/registration/",
+                        include("dj_rest_auth.registration.urls"),
+                    ),
+                    path(
+                        "parking/",
+                        include(
+                            ("parking.api.v1.urls", "parking"),
+                            namespace="parking",
+                        ),
                     ),
                 ],
                 "v1",

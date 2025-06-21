@@ -16,9 +16,21 @@ def parking_location():
 
 
 @pytest.fixture
+def superuser():
+    if su := User.objects.filter(username="SuperUser"):
+        return su.first()
+
+    return User.objects.create_superuser(
+        "SuperUser",
+        "test@email.com",
+        password="123",
+    )
+
+
+@pytest.fixture
 def user():
-    if u := User.objects.first():
-        return u
+    if u := User.objects.filter(username="TestUser"):
+        return u.first()
 
     return User.objects.create_user(
         "TestUser",
