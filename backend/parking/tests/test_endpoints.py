@@ -27,7 +27,7 @@ def test_reservation_cancel(client, parking_reservation, user):
 
     # happy path ==============================================================
 
-    parking_reservation.status = ParkingReservation.Status.UPCOMING
+    parking_reservation.status = ParkingReservation.Status.UPCOMING.value
     parking_reservation.save()
 
     response = client.post(url)
@@ -75,7 +75,7 @@ def test_reservation_scoping(
 def test_location_permissions(client, user, superuser, parking_location):
     client.force_login(user)
     url_list = reverse("v1:parking:location-list")
-    url_delete = reverse("v1:parking:location-detail", args=[1])
+    url_delete = reverse("v1:parking:location-detail", args=[parking_location.id])
 
     response = client.get(url_list)
 
