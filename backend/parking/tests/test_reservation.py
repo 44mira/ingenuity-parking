@@ -23,10 +23,21 @@ def test_no_reservation_overlap(parking_reservation, parking_location, user):
         )
         pr.full_clean()
         pr.save()
+
+        pr = ParkingReservation(
+            location=parking_location,
+            reserve_start=datetime.fromisoformat("2024-10-01T12:00:00Z"),
+            reserve_end=datetime.fromisoformat("2024-10-01T12:30:00Z"),
+            price=Money(10, "PHP"),
+            status="UPCOMING",
+            owner=user,
+        )
+        pr.full_clean()
+        pr.save()
     except ValidationError:
         assert False, "Should not raise ValidationError."
 
-    assert parking_location.slots == initial_slots - 1
+    assert parking_location.slots == initial_slots - 2
 
 
 @pytest.mark.django_db
@@ -81,6 +92,32 @@ def test_invalid_date(parking_location, user):
 def test_reservation_overlap(parking_reservation, parking_location, user):
     initial_slots = parking_location.slots
 
+    try:
+        pr = ParkingReservation(
+            location=parking_location,
+            reserve_start=datetime.fromisoformat("2023-10-01T11:00:00Z"),
+            reserve_end=datetime.fromisoformat("2023-10-01T13:00:00Z"),
+            status="PAST",
+            price=Money(10, "PHP"),
+            owner=user,
+        )
+        pr.full_clean()
+    except ValidationError:
+        assert False, "Past overlap should not raise ValidationError."
+
+    try:
+        pr = ParkingReservation(
+            location=parking_location,
+            reserve_start=datetime.fromisoformat("2023-10-01T11:00:00Z"),
+            reserve_end=datetime.fromisoformat("2023-10-01T13:00:00Z"),
+            status="CANCELLED",
+            price=Money(10, "PHP"),
+            owner=user,
+        )
+        pr.full_clean()
+    except ValidationError:
+        assert False, "Cancelled overlap should not raise ValidationError."
+
     with asserts.assertRaisesMessage(
         ValidationError,
         "This reservation overlaps with an existing reservation.",
@@ -89,7 +126,7 @@ def test_reservation_overlap(parking_reservation, parking_location, user):
             location=parking_location,
             reserve_start=datetime.fromisoformat("2023-10-01T11:00:00Z"),
             reserve_end=datetime.fromisoformat("2023-10-01T13:00:00Z"),
-            status="PAST",
+            status="ACTIVE",
             price=Money(10, "PHP"),
             owner=user,
         )
@@ -104,7 +141,7 @@ def test_reservation_overlap(parking_reservation, parking_location, user):
             location=parking_location,
             reserve_start=datetime.fromisoformat("2023-10-01T11:00:00Z"),
             reserve_end=datetime.fromisoformat("2023-10-01T11:30:00Z"),
-            status="PAST",
+            status="UPCOMING",
             price=Money(10, "PHP"),
             owner=user,
         )

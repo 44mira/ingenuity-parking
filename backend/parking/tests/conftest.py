@@ -37,6 +37,6 @@ def parking_reservation(parking_location, user):
         reserve_start=datetime.fromisoformat("2023-10-01T10:00:00Z"),
         reserve_end=datetime.fromisoformat("2023-10-01T12:00:00Z"),
         price=Money(10, "PHP"),
-        status="PAST",
+        status="ACTIVE",
         owner=user,
     )
