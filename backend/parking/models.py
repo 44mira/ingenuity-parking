@@ -9,8 +9,8 @@ from moneyed import PHP
 
 class ParkingLocation(models.Model):
     class Meta:
-        verbose_name = _("Parking Location")
-        verbose_name_plural = _("Parking Locations")
+        verbose_name = _("Location")
+        verbose_name_plural = _("Locations")
 
     slots = models.IntegerField(
         _("Slots"),
@@ -22,8 +22,15 @@ class ParkingLocation(models.Model):
         help_text="The name of the parking location.",
     )
 
+    def __str__(self):
+        return self.name
+
 
 class ParkingReservation(models.Model):
+    class Meta:
+        verbose_name = _("Reservation")
+        verbose_name_plural = _("Reservations")
+
     class Status(models.TextChoices):
         ACTIVE = "ACTIVE", _("Active")
         CANCELLED = "CANCELLED", _("Cancelled")
@@ -102,3 +109,6 @@ class ParkingReservation(models.Model):
             raise ValidationError(
                 "This reservation overlaps with an existing reservation."
             )
+
+    def __str__(self):
+        return f"{self.location.name} : {self.reserve_start}-{self.reserve_end}"

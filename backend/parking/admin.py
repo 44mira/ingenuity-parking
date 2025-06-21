@@ -5,6 +5,7 @@ from parking.models import ParkingLocation, ParkingReservation
 
 @admin.register(ParkingLocation)
 class ParkingLocationAdmin(admin.ModelAdmin):
+    fields = ["name", "slots"]
     list_display = ["name", "slots"]
     search_fields = ["name"]
     search_help_text = "Search locations by name."
