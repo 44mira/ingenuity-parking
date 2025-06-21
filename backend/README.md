@@ -1,7 +1,7 @@
 # Ingenuity Parking Backend
 
 The backend utilizes Django, django-restql, and Django REST Framework to
-provide a robust API that can be queried with a GraphQL-like queries.
+provide a robust API that can be queried with GraphQL-like queries.
 
 Its auth system uses Basic and Session authentication from dj-rest-auth and
 Django.
