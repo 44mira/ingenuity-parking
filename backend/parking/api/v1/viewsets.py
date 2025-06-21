@@ -1,11 +1,12 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, viewsets
+from rest_framework import filters, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from parking.api.v1.serializers import (ParkingLocationSerializer,
                                         ParkingReservationSerializer)
 from parking.models import ParkingLocation, ParkingReservation
-from parking.permissions import (CanCancelReservation, IsAdminOrReadOnly,
-                                 IsOwnerOrReadOnly)
+from parking.permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 
 
 class ParkingLocationViewSet(viewsets.ModelViewSet):
@@ -19,7 +20,7 @@ class ParkingLocationViewSet(viewsets.ModelViewSet):
 class ParkingReservationViewSet(viewsets.ModelViewSet):
     serializer_class = ParkingReservationSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    permission_classes = [CanCancelReservation, IsOwnerOrReadOnly]
+    permission_classes = [IsOwnerOrReadOnly]
     search_fields = ["location__name"]
     filterset_fields = [
         "reserve_start",
@@ -33,7 +34,24 @@ class ParkingReservationViewSet(viewsets.ModelViewSet):
     def get_queryset(self, *args, **kwargs):
         if self.request.user.is_staff:
             return ParkingReservation.objects.all()
-        return ParkingReservation.objects.filter(user=self.request.user)
+        return ParkingReservation.objects.filter(owner=self.request.user)
+
+    @action(detail=True, methods=["post"])
+    def cancel(self, request, pk=None):
+        reservation = self.get_object()
+
+        if reservation.status != ParkingReservation.Status.UPCOMING:
+            return Response(
+                {"detail": "Can only cancel upcoming reservations."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        reservation.status = ParkingReservation.Status.CANCELLED.value
+        reservation.save()
+        return Response(
+            {"detail": "Reservation cancelled."},
+            status=status.HTTP_200_OK,
+        )
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(owner=self.request.user)
