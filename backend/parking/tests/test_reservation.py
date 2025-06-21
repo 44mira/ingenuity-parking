@@ -15,8 +15,8 @@ def test_no_reservation_overlap(parking_reservation, parking_location, user):
     try:
         pr = ParkingReservation(
             location=parking_location,
-            reserve_start=datetime.fromisoformat("2024-10-01T12:00:00Z"),
-            reserve_end=datetime.fromisoformat("2024-10-01T12:30:00Z"),
+            reserve_start=datetime.fromisoformat("2024-10-01T12:00:00+00:00"),
+            reserve_end=datetime.fromisoformat("2024-10-01T12:30:00+00:00"),
             price=Money(10, "PHP"),
             status="PAST",
             owner=user,
@@ -26,8 +26,8 @@ def test_no_reservation_overlap(parking_reservation, parking_location, user):
 
         pr = ParkingReservation(
             location=parking_location,
-            reserve_start=datetime.fromisoformat("2024-10-01T12:00:00Z"),
-            reserve_end=datetime.fromisoformat("2024-10-01T12:30:00Z"),
+            reserve_start=datetime.fromisoformat("2024-10-01T12:00:00+00:00"),
+            reserve_end=datetime.fromisoformat("2024-10-01T12:30:00+00:00"),
             price=Money(10, "PHP"),
             status="UPCOMING",
             owner=user,
@@ -53,8 +53,8 @@ def test_no_slots(user):
     ):
         pr = ParkingReservation(
             location=parking_location,
-            reserve_start=datetime.fromisoformat("2024-10-01T12:00:00Z"),
-            reserve_end=datetime.fromisoformat("2024-10-01T12:30:00Z"),
+            reserve_start=datetime.fromisoformat("2024-10-01T12:00:00+00:00"),
+            reserve_end=datetime.fromisoformat("2024-10-01T12:30:00+00:00"),
             status="PAST",
             price=Money(10, "PHP"),
             owner=user,
@@ -75,8 +75,8 @@ def test_invalid_date(parking_location, user):
     ):
         pr = ParkingReservation(
             location=parking_location,
-            reserve_start=datetime.fromisoformat("2023-10-01T13:00:00Z"),
-            reserve_end=datetime.fromisoformat("2023-10-01T11:00:00Z"),
+            reserve_start=datetime.fromisoformat("2023-10-01T13:00:00+00:00"),
+            reserve_end=datetime.fromisoformat("2023-10-01T11:00:00+00:00"),
             status="PAST",
             price=Money(10, "PHP"),
             owner=user,
@@ -95,8 +95,8 @@ def test_reservation_overlap(parking_reservation, parking_location, user):
     try:
         pr = ParkingReservation(
             location=parking_location,
-            reserve_start=datetime.fromisoformat("2023-10-01T11:00:00Z"),
-            reserve_end=datetime.fromisoformat("2023-10-01T13:00:00Z"),
+            reserve_start=datetime.fromisoformat("2023-10-01T11:00:00+00:00"),
+            reserve_end=datetime.fromisoformat("2023-10-01T13:00:00+00:00"),
             status="PAST",
             price=Money(10, "PHP"),
             owner=user,
@@ -108,8 +108,8 @@ def test_reservation_overlap(parking_reservation, parking_location, user):
     try:
         pr = ParkingReservation(
             location=parking_location,
-            reserve_start=datetime.fromisoformat("2023-10-01T11:00:00Z"),
-            reserve_end=datetime.fromisoformat("2023-10-01T13:00:00Z"),
+            reserve_start=datetime.fromisoformat("2023-10-01T11:00:00+00:00"),
+            reserve_end=datetime.fromisoformat("2023-10-01T13:00:00+00:00"),
             status="CANCELLED",
             price=Money(10, "PHP"),
             owner=user,
@@ -124,8 +124,8 @@ def test_reservation_overlap(parking_reservation, parking_location, user):
     ):
         pr = ParkingReservation(
             location=parking_location,
-            reserve_start=datetime.fromisoformat("2023-10-01T11:00:00Z"),
-            reserve_end=datetime.fromisoformat("2023-10-01T13:00:00Z"),
+            reserve_start=datetime.fromisoformat("2023-10-01T11:00:00+00:00"),
+            reserve_end=datetime.fromisoformat("2023-10-01T13:00:00+00:00"),
             status="ACTIVE",
             price=Money(10, "PHP"),
             owner=user,
@@ -139,8 +139,8 @@ def test_reservation_overlap(parking_reservation, parking_location, user):
     ):
         pr = ParkingReservation(
             location=parking_location,
-            reserve_start=datetime.fromisoformat("2023-10-01T11:00:00Z"),
-            reserve_end=datetime.fromisoformat("2023-10-01T11:30:00Z"),
+            reserve_start=datetime.fromisoformat("2023-10-01T11:00:00+00:00"),
+            reserve_end=datetime.fromisoformat("2023-10-01T11:30:00+00:00"),
             status="UPCOMING",
             price=Money(10, "PHP"),
             owner=user,

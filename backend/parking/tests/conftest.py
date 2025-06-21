@@ -34,8 +34,8 @@ def parking_reservation(parking_location, user):
 
     return ParkingReservation.objects.create(
         location=parking_location,
-        reserve_start=datetime.fromisoformat("2023-10-01T10:00:00Z"),
-        reserve_end=datetime.fromisoformat("2023-10-01T12:00:00Z"),
+        reserve_start=datetime.fromisoformat("2023-10-01T10:00:00+00:00"),
+        reserve_end=datetime.fromisoformat("2023-10-01T12:00:00+00:00"),
         price=Money(10, "PHP"),
         status="ACTIVE",
         owner=user,
