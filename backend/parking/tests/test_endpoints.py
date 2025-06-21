@@ -69,3 +69,30 @@ def test_reservation_scoping(
 
     assert response.status_code == 200
     assert len(response.data["results"]) == 2
+
+
+@pytest.mark.django_db
+def test_location_permissions(client, user, superuser, parking_location):
+    client.force_login(user)
+    url_list = reverse("v1:parking:location-list")
+    url_delete = reverse("v1:parking:location-detail", args=[1])
+
+    response = client.get(url_list)
+
+    assert response.status_code == 200
+    assert len(response.data["results"]) == 1
+
+    response = client.delete(url_delete)
+
+    assert response.status_code == 403
+
+    client.force_login(superuser)
+
+    response = client.get(url_list)
+
+    assert response.status_code == 200
+    assert len(response.data["results"]) == 1
+
+    response = client.delete(url_delete)
+
+    assert response.status_code == 204
