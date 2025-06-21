@@ -23,7 +23,17 @@ class ParkingLocation(models.Model):
     )
 
     def get_available_slots(self):
-        return self.slots - self.reservations.count()
+        """
+        Available slots are obtained by subtracting active and upcoming slots
+        from capacity.
+        """
+        status = ParkingReservation.Status
+        return (
+            self.slots
+            - self.reservations.filter(
+                status__in=[status.ACTIVE.value, status.UPCOMING.value]
+            ).count()
+        )
 
     def __str__(self):
         return self.name

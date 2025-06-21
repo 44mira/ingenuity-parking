@@ -37,7 +37,7 @@ def test_no_reservation_overlap(parking_reservation, parking_location, user):
     except ValidationError:
         assert False, "Should not raise ValidationError."
 
-    assert parking_location.get_available_slots() == initial_slots - 2
+    assert parking_location.get_available_slots() == initial_slots - 1
 
 
 @pytest.mark.django_db
