@@ -1,11 +1,14 @@
+from datetime import datetime
+
 import pytest
 from django.urls import reverse
+from djmoney.money import Money
 
 from parking.models import ParkingReservation
 
 
 @pytest.mark.django_db
-def test_parking_reservation_cancel(client, parking_reservation, user):
+def test_reservation_cancel(client, parking_reservation, user):
     client.force_login(user)
     url = reverse(
         "v1:parking:reservation-cancel",
@@ -34,3 +37,35 @@ def test_parking_reservation_cancel(client, parking_reservation, user):
     assert response.data["detail"] == "Reservation cancelled."
 
     assert parking_reservation.status == "CANCELLED"
+
+
+@pytest.mark.django_db
+def test_reservation_scoping(
+    client, user, superuser, parking_reservation, parking_location
+):
+    # user can only see their reservations ====================================
+
+    ParkingReservation.objects.create(
+        location=parking_location,
+        reserve_start=datetime.fromisoformat("2023-12-01T10:00:00+00:00"),
+        reserve_end=datetime.fromisoformat("2023-12-02T12:00:00+00:00"),
+        price=Money(10, "PHP"),
+        status="ACTIVE",
+        owner=superuser,
+    )
+
+    client.force_login(user)
+    url = reverse("v1:parking:reservation-list")
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert len(response.data["results"]) == 1
+
+    # superuser can see all reservations ======================================
+
+    client.force_login(superuser)
+    url = reverse("v1:parking:reservation-list")
+    response = client.get(url)
+
+    assert response.status_code == 200
+    assert len(response.data["results"]) == 2
