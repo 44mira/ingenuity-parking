@@ -10,7 +10,7 @@ from parking.models import ParkingLocation, ParkingReservation
 
 @pytest.mark.django_db
 def test_no_reservation_overlap(parking_reservation, parking_location, user):
-    initial_slots = parking_location.slots
+    initial_slots = parking_location.get_available_slots()
 
     try:
         pr = ParkingReservation(
@@ -37,7 +37,7 @@ def test_no_reservation_overlap(parking_reservation, parking_location, user):
     except ValidationError:
         assert False, "Should not raise ValidationError."
 
-    assert parking_location.slots == initial_slots - 2
+    assert parking_location.get_available_slots() == initial_slots - 2
 
 
 @pytest.mark.django_db
@@ -62,12 +62,12 @@ def test_no_slots(user):
         pr.full_clean()
         pr.save()
 
-    assert parking_location.slots == 0
+    assert parking_location.get_available_slots() == 0
 
 
 @pytest.mark.django_db
 def test_invalid_date(parking_location, user):
-    initial_slots = parking_location.slots
+    initial_slots = parking_location.get_available_slots()
 
     with asserts.assertRaisesMessage(
         ValidationError,
@@ -85,12 +85,12 @@ def test_invalid_date(parking_location, user):
         pr.full_clean()
         pr.save()
 
-    assert parking_location.slots == initial_slots
+    assert parking_location.get_available_slots() == initial_slots
 
 
 @pytest.mark.django_db
 def test_reservation_overlap(parking_reservation, parking_location, user):
-    initial_slots = parking_location.slots
+    initial_slots = parking_location.get_available_slots()
 
     try:
         pr = ParkingReservation(
@@ -148,4 +148,4 @@ def test_reservation_overlap(parking_reservation, parking_location, user):
         pr.full_clean()
         pr.save()
 
-    assert parking_location.slots == initial_slots
+    assert parking_location.get_available_slots() == initial_slots

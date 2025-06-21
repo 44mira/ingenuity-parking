@@ -22,6 +22,9 @@ class ParkingLocation(models.Model):
         help_text="The name of the parking location.",
     )
 
+    def get_available_slots(self):
+        return self.slots - self.reservations.count()
+
     def __str__(self):
         return self.name
 
@@ -81,13 +84,6 @@ class ParkingReservation(models.Model):
         auto_now_add=True,
         help_text="The time the reservation was created.",
     )
-
-    def save(self, *args, **kwargs):
-        # deduct slot
-        self.location.slots -= 1
-        self.location.save()
-
-        super().save(*args, **kwargs)
 
     def clean(self, *args, **kwargs):
         # check for slot count
