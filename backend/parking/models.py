@@ -51,6 +51,7 @@ class ParkingReservation(models.Model):
         default_currency=PHP,
         help_text="The price of the reservation slot.",
     )
+
     status = models.CharField(
         _("Status"),
         max_length=15,
@@ -73,7 +74,7 @@ class ParkingReservation(models.Model):
         help_text="The time the reservation was created.",
     )
 
-    def save(self, **kwargs):
+    def save(self, *args, **kwargs):
         # deduct slot
         self.location.slots -= 1
         self.location.save()
@@ -83,12 +84,21 @@ class ParkingReservation(models.Model):
     def clean(self):
         # check for slot count
         if self.location.slots <= 0:
-            ValidationError("There are no slots available for this parking location.")
+            raise ValidationError(
+                "There are no slots available for this parking location."
+            )
+
+        # check for invalid range
+        if self.reserve_start >= self.reserve_end:
+            raise ValidationError("Start date must be before end date.")
 
         # check for overlapping
+        # (StartA <= EndB) AND (EndA >= StartB)
         overlaps = ParkingReservation.objects.filter(
-            Q(reserve_end__gte=self.reserve_start),
-            Q(reserve_start__lte=self.reserve_end),
+            Q(reserve_start__lte=self.reserve_end)
+            & Q(reserve_end__gte=self.reserve_start),
         )
-        if overlaps:
-            ValidationError("This reservation overlaps with an existing reservation.")
+        if overlaps.exists():
+            raise ValidationError(
+                "This reservation overlaps with an existing reservation."
+            )
