@@ -110,7 +110,8 @@ class ParkingReservation(models.Model):
         # for all active or upcoming reservations:
         # (StartA <= EndB) AND (EndA >= StartB)
         overlaps = ParkingReservation.objects.filter(
-            Q(status__in=[self.Status.ACTIVE.value, self.Status.UPCOMING.value])
+            Q(location=self.location)
+            & Q(status__in=[self.Status.ACTIVE.value, self.Status.UPCOMING.value])
             & Q(reserve_start__lte=self.reserve_end)
             & Q(reserve_end__gte=self.reserve_start),
         )
