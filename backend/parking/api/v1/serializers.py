@@ -7,9 +7,15 @@ from parking.models import ParkingLocation, ParkingReservation
 
 
 class ParkingLocationSerializer(DynamicFieldsMixin, serializers.ModelSerializer):
+    available_slots = serializers.SerializerMethodField()
+
     class Meta:
         model = ParkingLocation
         fields = "__all__"
+        extra_fields = ["available_slots"]
+
+    def get_available_slots(self, obj):
+        return getattr(obj, "available_slots", obj.get_available_slots())
 
 
 class ParkingReservationSerializer(DynamicFieldsMixin, NestedModelSerializer):

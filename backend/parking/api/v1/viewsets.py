@@ -1,3 +1,4 @@
+from django.db.models import Count, ExpressionWrapper, F, IntegerField, Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
@@ -10,7 +11,24 @@ from parking.permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 
 
 class ParkingLocationViewSet(viewsets.ModelViewSet):
-    queryset = ParkingLocation.objects.all()
+    # optimize querying available slots by calculating in bulk
+    queryset = ParkingLocation.objects.annotate(
+        reserved_count=Count(
+            "reservations",
+            filter=Q(
+                reservations__status__in=[
+                    ParkingReservation.Status.ACTIVE.value,
+                    ParkingReservation.Status.UPCOMING.value,
+                ]
+            ),
+        )
+    ).annotate(
+        available_slots=ExpressionWrapper(
+            F("slots") - F("reserved_count"),
+            output_field=IntegerField(),
+        )
+    )
+
     serializer_class = ParkingLocationSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ["name"]
