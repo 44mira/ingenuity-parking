@@ -10,6 +10,7 @@ dependencies = [
     "django-extensions>=4.1",
     "django-money>=3.5.4",
     "django-restql>=0.16.2",
+    "django-types>=0.21.0",
     "djangorestframework>=3.16.0",
     "drf-yasg>=1.21.10",
     "pytest-django>=4.11.1",
