@@ -135,3 +135,8 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# swagger
+SWAGGER_SETTINGS = {
+    "DEFAULT_INFO": "core.urls.api_info",
+}

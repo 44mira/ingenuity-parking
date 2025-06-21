@@ -8,11 +8,12 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
+api_info = openapi.Info(
+    title="Ingenuity Parking API",
+    default_version="v1",
+)
+
 schema_view = get_schema_view(
-    openapi.Info(
-        title="Snippets API",
-        default_version="v1",
-    ),
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
