@@ -33,6 +33,7 @@ class ParkingReservation(models.Model):
 
     class Status(models.TextChoices):
         ACTIVE = "ACTIVE", _("Active")
+        UPCOMING = "UPCOMING", _("Upcoming")
         CANCELLED = "CANCELLED", _("Cancelled")
         PAST = "PAST", _("Past")
 
@@ -86,9 +87,9 @@ class ParkingReservation(models.Model):
         self.location.slots -= 1
         self.location.save()
 
-        super().save(**kwargs)
+        super().save(*args, **kwargs)
 
-    def clean(self):
+    def clean(self, *args, **kwargs):
         # check for slot count
         if self.location.slots <= 0:
             raise ValidationError(
@@ -100,15 +101,20 @@ class ParkingReservation(models.Model):
             raise ValidationError("Start date must be before end date.")
 
         # check for overlapping
+        # for all active or upcoming reservations:
         # (StartA <= EndB) AND (EndA >= StartB)
         overlaps = ParkingReservation.objects.filter(
-            Q(reserve_start__lte=self.reserve_end)
+            Q(status__in=[self.Status.ACTIVE.value, self.Status.UPCOMING.value])
+            & Q(reserve_start__lte=self.reserve_end)
             & Q(reserve_end__gte=self.reserve_start),
         )
-        if overlaps.exists():
+
+        if self.status in ("ACTIVE", "UPCOMING") and overlaps.exists():
             raise ValidationError(
                 "This reservation overlaps with an existing reservation."
             )
+
+        super().clean(*args, **kwargs)
 
     def __str__(self):
         return f"{self.location.name} : {self.reserve_start}-{self.reserve_end}"
