@@ -11,7 +11,7 @@ export default function AdminProfile() {
       <Button
         onClick={() => {
           logout();
-          navigate("/admin-login/");
+          navigate("/login/");
         }}
       >
         Logout

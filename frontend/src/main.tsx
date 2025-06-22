@@ -7,7 +7,7 @@ import AdminHome from "./pages/AdminHome";
 import DashboardLayout from "@/components/DashboardLayout.tsx";
 import LocationList from "./pages/LocationList";
 import AdminProfile from "./pages/AdminProfile";
-import AdminLogin from "./pages/AdminLogin";
+import Login from "./pages/Login";
 
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
@@ -29,7 +29,7 @@ createRoot(document.getElementById("root")!).render(
                 <Route path="profile" element={<AdminProfile />} />
               </Route>
             </Route>
-            <Route path="admin-login" element={<AdminLogin />} />
+            <Route path="login" element={<Login />} />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

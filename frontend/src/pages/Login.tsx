@@ -1,4 +1,4 @@
-import AdminLoginForm from "@/components/AdminLoginForm";
+import AdminLoginForm from "@/components/LoginForm";
 import { useAuth } from "@/api/auth";
 import { Navigate } from "react-router";
 
