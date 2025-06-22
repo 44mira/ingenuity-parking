@@ -5,15 +5,34 @@ import "./index.css";
 import AdminHome from "./pages/AdminHome";
 
 import DashboardLayout from "@/components/DashboardLayout.tsx";
+import LocationList from "./pages/LocationList";
+import AdminProfile from "./pages/AdminProfile";
+import Login from "./pages/Login";
+
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+
+import { AuthProvider } from "@/api/auth";
+import RequireAuth from "./components/RequireAuth";
+
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="admin" element={<DashboardLayout />}>
-          <Route index element={<AdminHome />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<RequireAuth />}>
+              <Route path="admin" element={<DashboardLayout />}>
+                <Route index element={<AdminHome />} />
+                <Route path="locations" element={<LocationList />} />
+                <Route path="profile" element={<AdminProfile />} />
+              </Route>
+            </Route>
+            <Route path="login" element={<Login />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </AuthProvider>
   </StrictMode>,
 );
