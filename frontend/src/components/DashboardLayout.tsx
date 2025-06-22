@@ -6,8 +6,10 @@ export default function DashboardLayout() {
   return (
     <SidebarProvider>
       <DashboardSidebar />
-      <main>
-        <SidebarTrigger />
+      <main className="flex flex-col p-5 gap-3">
+        <div className="bg-gray-200 max-w-fit h-fit rounded-lg">
+          <SidebarTrigger />
+        </div>
         <Outlet />
       </main>
     </SidebarProvider>
