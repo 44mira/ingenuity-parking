@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "@/api/auth";
 
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router";
 import {
   Form,
   FormControl,
@@ -24,7 +23,6 @@ const formSchema = z.object({
 
 export default function AdminLoginForm() {
   const { login } = useAuth();
-  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

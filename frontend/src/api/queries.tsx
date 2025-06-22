@@ -14,8 +14,8 @@ export async function login_user(data: LoginForm) {
   return response;
 }
 
-export async function logout_user() {
-  let response;
+export async function logout_user(): Promise<string> {
+  let response = { data: "" };
   try {
     response = await api.post("/auth/logout/", {});
   } catch (e) {

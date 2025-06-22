@@ -1,8 +1,6 @@
-import { createContext, useContext, useState, type Context } from "react";
+import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import { login_user, logout_user } from "./queries";
-
-const AuthContext = createContext(null);
 
 export interface LoginForm {
   username: string;
@@ -15,13 +13,15 @@ interface AuthContextType {
   logout: () => void;
 }
 
+const AuthContext = createContext<AuthContextType | null>(null);
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<string | null>(() =>
-    localStorage.getItem("token"),
+  const [user, setUser] = useState<string>(
+    () => localStorage.getItem("token") ?? "",
   );
 
   const login = async (user: LoginForm) => {
-    const token = await login_user(user);
+    const token: any = await login_user(user);
     localStorage.setItem("token", token);
     setUser(token);
   };
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     await logout_user();
     localStorage.removeItem("token");
-    setUser(null);
+    setUser("");
   };
 
   return (
