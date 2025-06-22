@@ -2,7 +2,7 @@ import AdminLoginForm from "@/components/LoginForm";
 import { useAuth } from "@/api/auth";
 import { Navigate } from "react-router";
 
-export default function AdminLogin() {
+export default function Login() {
   const { user } = useAuth();
 
   if (user) {
