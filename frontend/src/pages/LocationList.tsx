@@ -1,18 +1,14 @@
 import { locationColumns } from "@/api/schemas";
 import { location_list } from "@/api/queries";
 import { DataTable } from "@/components/ui/data-table";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
-
-const queryClient = new QueryClient();
+import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/api/auth";
 
 function LocationListTable() {
+  const { user } = useAuth();
   const { status, data } = useQuery({
     queryKey: ["location-list"],
-    queryFn: location_list,
+    queryFn: () => location_list(user),
   });
 
   if (status == "error") {
@@ -35,9 +31,7 @@ export default function LocationList() {
     <main className="min-w-full">
       <h1 className="text-2xl font-bold">Parking Locations</h1>
 
-      <QueryClientProvider client={queryClient}>
-        <LocationListTable />
-      </QueryClientProvider>
+      <LocationListTable />
     </main>
   );
 }

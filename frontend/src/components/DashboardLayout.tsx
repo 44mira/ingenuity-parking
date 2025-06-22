@@ -1,8 +1,17 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
-import { Outlet } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
+import { useAuth } from "@/api/auth";
 
 export default function DashboardLayout() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  if (!user && pathname != "/admin-login/") {
+    navigate("/admin-login/");
+  }
+
   return (
     <SidebarProvider>
       <DashboardSidebar />

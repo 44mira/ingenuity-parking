@@ -1,14 +1,32 @@
 import axios from "axios";
+import type { LoginForm } from "./auth";
 
-const BACKEND_URL = import.meta.env.BACKEND_URL ?? "http://127.0.0.1:8000";
+const BACKEND_URL =
+  import.meta.env.BACKEND_URL ?? "http://127.0.0.1:8000/api/v1";
 
 const api = axios.create({
   baseURL: BACKEND_URL,
   timeout: 1000,
 });
 
-export async function location_list() {
-  const response = await api.get("/api/v1/location");
+export async function login_user(data: LoginForm) {
+  const response = await api.post("/auth/login/", data);
+
+  return response.data;
+}
+
+export async function logout_user() {
+  const response = await api.post("/auth/login/");
+
+  return response.data;
+}
+
+export async function location_list(user: string) {
+  const response = await api.get("/parking/location/", {
+    headers: {
+      Authorization: `Bearer ${user}`,
+    },
+  });
 
   return response.data;
 }
