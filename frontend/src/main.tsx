@@ -5,6 +5,7 @@ import "./index.css";
 import AdminHome from "./pages/AdminHome";
 
 import DashboardLayout from "@/components/DashboardLayout.tsx";
+import LocationList from "./pages/LocationList";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -12,6 +13,7 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         <Route path="admin" element={<DashboardLayout />}>
           <Route index element={<AdminHome />} />
+          <Route path="locations" element={<LocationList />} />
         </Route>
       </Routes>
     </BrowserRouter>
