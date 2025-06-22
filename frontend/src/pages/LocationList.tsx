@@ -7,7 +7,7 @@ import { useAuth } from "@/api/auth";
 function LocationListTable() {
   const { user } = useAuth();
   const { status, data } = useQuery({
-    queryKey: ["location-list"],
+    queryKey: ["location-list", user],
     queryFn: () => location_list(user),
   });
 
