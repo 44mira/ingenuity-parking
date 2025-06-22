@@ -21,7 +21,7 @@ function LocationListTable() {
 
   return (
     <div className="container py-10">
-      <DataTable columns={locationColumns} data={data} />
+      <DataTable columns={locationColumns} data={data.results} />
     </div>
   );
 }

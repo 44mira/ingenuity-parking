@@ -11,12 +11,16 @@ const api = axios.create({
 
 export async function login_user(data: LoginForm) {
   const response = await api.post("/auth/login/", data);
-
-  return response.data;
+  return response;
 }
 
 export async function logout_user() {
-  const response = await api.post("/auth/login/");
+  let response;
+  try {
+    response = await api.post("/auth/logout/", {});
+  } catch (e) {
+    console.log(e);
+  }
 
   return response.data;
 }

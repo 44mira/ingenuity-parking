@@ -1,3 +1,21 @@
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/api/auth";
+import { useNavigate } from "react-router";
+
 export default function AdminProfile() {
-  return <div></div>;
+  const { logout, user } = useAuth();
+  const navigate = useNavigate();
+
+  return (
+    <div>
+      <Button
+        onClick={() => {
+          logout();
+          navigate("/admin-login/");
+        }}
+      >
+        Logout
+      </Button>
+    </div>
+  );
 }

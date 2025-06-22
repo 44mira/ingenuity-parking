@@ -19,7 +19,6 @@ import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
   username: z.string().min(1).max(50),
-  email: z.string().min(1).max(50).email(),
   password: z.string().min(1),
 });
 
@@ -31,20 +30,17 @@ export default function AdminLoginForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
-      email: "",
       password: "",
     },
   });
 
+  const onSubmit = (e: z.infer<typeof formSchema>) => {
+    login(e);
+  };
+
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((e) => {
-          login(e);
-          navigate("/admin/");
-        })}
-        className="space-y-8"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
           name="username"
@@ -53,19 +49,6 @@ export default function AdminLoginForm() {
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input placeholder="admin" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="example@gmail.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

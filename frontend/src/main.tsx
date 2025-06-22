@@ -12,6 +12,7 @@ import AdminLogin from "./pages/AdminLogin";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 import { AuthProvider } from "@/api/auth";
+import RequireAuth from "./components/RequireAuth";
 
 const queryClient = new QueryClient();
 
@@ -21,10 +22,12 @@ createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            <Route path="admin" element={<DashboardLayout />}>
-              <Route index element={<AdminHome />} />
-              <Route path="locations" element={<LocationList />} />
-              <Route path="profile" element={<AdminProfile />} />
+            <Route element={<RequireAuth />}>
+              <Route path="admin" element={<DashboardLayout />}>
+                <Route index element={<AdminHome />} />
+                <Route path="locations" element={<LocationList />} />
+                <Route path="profile" element={<AdminProfile />} />
+              </Route>
             </Route>
             <Route path="admin-login" element={<AdminLogin />} />
           </Routes>

@@ -6,7 +6,6 @@ const AuthContext = createContext(null);
 
 export interface LoginForm {
   username: string;
-  email: string;
   password: string;
 }
 
@@ -17,18 +16,20 @@ interface AuthContextType {
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<string | null>(() =>
+    localStorage.getItem("token"),
+  );
 
-  const login = (user: LoginForm) => {
-    login_user(user).then((token) => {
-      setUser(token);
-    });
+  const login = async (user: LoginForm) => {
+    const token = await login_user(user);
+    localStorage.setItem("token", token);
+    setUser(token);
   };
 
-  const logout = () => {
-    logout_user().then(() => {
-      setUser(null);
-    });
+  const logout = async () => {
+    await logout_user();
+    localStorage.removeItem("token");
+    setUser(null);
   };
 
   return (
