@@ -1,3 +1,26 @@
+# Ingenuity Parking Frontend
+
+The frontend utilizes Vite + React + Typescript, along with React Router. Basic
+components were gotten from shad/cn, lucide-react, and TailwindCSS. Forms were
+done with Zod and React Hook Form. Queries to the backend were done with axios
+and TanStack Query. Data was displayed using TanStack Table. Lastly, the
+dashboard charts were done with Chart.js.
+
+## Running locally
+
+```bash
+npm install
+
+# for testing
+npm build
+npm test
+
+# run dev server
+npm run dev
+```
+
+> Boilerplate README follows...
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
