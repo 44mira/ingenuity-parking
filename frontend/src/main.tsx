@@ -15,6 +15,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { AuthProvider } from "@/api/auth";
 import RequireAuth from "./components/RequireAuth";
 import LocationForm from "./components/LocationForm";
+import ReservationForm from "./components/ReservationForm";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,8 @@ createRoot(document.getElementById("root")!).render(
                 </Route>
                 <Route path="reservations">
                   <Route index element={<ReservationList />} />
+                  <Route path="create" element={<ReservationForm />} />
+                  <Route path="update/:id" element={<ReservationForm />} />
                 </Route>
                 <Route path="profile" element={<AdminProfile />} />
               </Route>
