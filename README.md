@@ -1,6 +1,6 @@
 # Ingenuity Parking
 
-To run this project, you both the frontend and backend must be running.
+To run this project, both the frontend and backend must be running.
 
 Both of the instructions on how to run either are found within their respective
 directories `./frontend` and `./backend`.
@@ -20,7 +20,7 @@ directories `./frontend` and `./backend`.
 
 ## Development notes
 
-This project has not be deployed live because of both factors time and
+This project has not been deployed live because of both factors time and
 inexperience when it comes to deploying a fullstack application. But it does
 currently have GitHub actions setup that run tests for both the frontend
 (albeit the frontend doesn't actually have any tests currently as most of the
