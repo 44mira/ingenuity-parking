@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { LoginForm } from "./auth";
 import type { locationForm } from "@/components/LocationForm";
+import type { reservationForm } from "@/components/ReservationForm";
 
 const BACKEND_URL =
   import.meta.env.BACKEND_URL ?? "http://localhost:8000/api/v1";
@@ -115,6 +116,40 @@ export async function reservation_cancel(user: string, id: number) {
       },
     },
   );
+
+  return response.data;
+}
+
+export async function reservation_create(user: string, data: reservationForm) {
+  const response = await api.post(`/parking/reservation/`, data, {
+    headers: {
+      Authorization: `Token ${user}`,
+    },
+  });
+
+  return response.data;
+}
+
+export async function reservation_update(
+  user: string,
+  data: reservationForm,
+  id: string,
+) {
+  const response = await api.put(`/parking/reservation/${id}`, data, {
+    headers: {
+      Authorization: `Token ${user}`,
+    },
+  });
+
+  return response.data;
+}
+
+export async function reservation_detail(user: string, id: string) {
+  const response = await api.get(`/parking/reservation/${id}`, {
+    headers: {
+      Authorization: `Token ${user}`,
+    },
+  });
 
   return response.data;
 }
