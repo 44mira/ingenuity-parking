@@ -1,5 +1,9 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { Trash, Pencil } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Trash, Pencil, X } from "lucide-react";
+import { useAuth } from "./auth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { reservation_delete } from "./queries";
 
 export type Location = {
   id: number;
@@ -112,9 +116,26 @@ export const reservationColumns: ColumnDef<Reservation>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      const id = row.original.id;
+      const queryClient = useQueryClient();
+      const { user } = useAuth();
+      const mutation = useMutation({
+        mutationFn: () => {
+          return reservation_delete(user, id);
+        },
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["reservation-list", user],
+          });
+        },
+      });
+
       return (
         <div className="flex items-center gap-2 px-2">
-          <Trash size={20} color="red" />
+          <X size={20} color="red" />
+          <Button variant="outline" onClick={() => mutation.mutate()}>
+            <Trash size={20} color="red" />
+          </Button>
           <Pencil size={20} color="gray" />
         </div>
       );
