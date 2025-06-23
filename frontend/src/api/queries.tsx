@@ -42,26 +42,6 @@ export async function location_list(user: string) {
   return response.data;
 }
 
-export async function reservation_list(user: string) {
-  const response = await api.get("/parking/reservation/", {
-    headers: {
-      Authorization: `Token ${user}`,
-    },
-  });
-
-  return response.data;
-}
-
-export async function reservation_delete(user: string, id: number) {
-  const response = await api.delete(`/parking/reservation/${id}/`, {
-    headers: {
-      Authorization: `Token ${user}`,
-    },
-  });
-
-  return response.data;
-}
-
 export async function location_delete(user: string, id: number) {
   const response = await api.delete(`/parking/location/${id}/`, {
     headers: {
@@ -98,6 +78,35 @@ export async function location_update(
 
 export async function location_detail(user: string, id: string) {
   const response = await api.get(`/parking/location/${id}`, {
+    headers: {
+      Authorization: `Token ${user}`,
+    },
+  });
+
+  return response.data;
+}
+export async function reservation_list(user: string) {
+  const response = await api.get("/parking/reservation/", {
+    headers: {
+      Authorization: `Token ${user}`,
+    },
+  });
+
+  return response.data;
+}
+
+export async function reservation_delete(user: string, id: number) {
+  const response = await api.delete(`/parking/reservation/${id}/`, {
+    headers: {
+      Authorization: `Token ${user}`,
+    },
+  });
+
+  return response.data;
+}
+
+export async function reservation_cancel(user: string, id: number) {
+  const response = await api.post(`/parking/reservation/${id}/cancel`, {
     headers: {
       Authorization: `Token ${user}`,
     },

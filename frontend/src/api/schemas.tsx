@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Trash, Pencil, X } from "lucide-react";
 import { useAuth } from "./auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { reservation_delete, location_delete } from "./queries";
+import {
+  reservation_delete,
+  location_delete,
+  reservation_cancel,
+} from "./queries";
 import { useNavigate } from "react-router";
 
 export type Location = {
@@ -139,7 +143,7 @@ export const reservationColumns: ColumnDef<Reservation>[] = [
       const id = row.original.id;
       const queryClient = useQueryClient();
       const { user } = useAuth();
-      const mutation = useMutation({
+      const deleteMutation = useMutation({
         mutationFn: () => {
           return reservation_delete(user, id);
         },
@@ -150,10 +154,23 @@ export const reservationColumns: ColumnDef<Reservation>[] = [
         },
       });
 
+      const cancelMutation = useMutation({
+        mutationFn: () => {
+          return reservation_cancel(user, id);
+        },
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["reservation-list", user],
+          });
+        },
+      });
+
       return (
         <div className="flex items-center gap-2 px-2">
-          <X size={20} color="red" />
-          <Button variant="outline" onClick={() => mutation.mutate()}>
+          <Button variant="outline" onClick={() => cancelMutation.mutate()}>
+            <X size={20} color="red" />
+          </Button>
+          <Button variant="outline" onClick={() => deleteMutation.mutate()}>
             <Trash size={20} color="red" />
           </Button>
           <Pencil size={20} color="gray" />
