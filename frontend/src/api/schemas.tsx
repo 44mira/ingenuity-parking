@@ -53,7 +53,6 @@ export const locationColumns: ColumnDef<Location>[] = [
     cell: ({ row }) => {
       const queryClient = useQueryClient();
       const navigate = useNavigate();
-      const id = row.original.id;
       const { user } = useAuth();
       const mutation = useMutation({
         mutationFn: () => {
@@ -65,6 +64,8 @@ export const locationColumns: ColumnDef<Location>[] = [
           });
         },
       });
+
+      const id = row.original.id;
 
       return (
         <div className="flex items-center gap-2 px-2">
@@ -140,7 +141,6 @@ export const reservationColumns: ColumnDef<Reservation>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const id = row.original.id;
       const navigate = useNavigate();
       const queryClient = useQueryClient();
       const { user } = useAuth();
@@ -154,6 +154,8 @@ export const reservationColumns: ColumnDef<Reservation>[] = [
           });
         },
       });
+
+      const id = row.original.id;
 
       const cancelMutation = useMutation({
         mutationFn: () => {

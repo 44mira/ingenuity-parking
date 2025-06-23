@@ -1,12 +1,14 @@
+import { useAuth } from "@/api/auth";
+import { useQuery } from "@tanstack/react-query";
+
 import { NavLink } from "react-router";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 
-import { useAuth } from "@/api/auth";
-import { useQuery } from "@tanstack/react-query";
 import { get_user } from "@/api/queries";
 
 export default function DashboardAvatar() {
   const { user } = useAuth();
+
   const { status, data } = useQuery({
     queryKey: ["username"],
     queryFn: () => get_user(user),

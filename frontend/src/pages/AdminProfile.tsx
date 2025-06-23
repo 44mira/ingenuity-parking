@@ -1,6 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { useAuth } from "@/api/auth";
 import { useNavigate } from "react-router";
+
+import { Button } from "@/components/ui/button";
 
 export default function AdminProfile() {
   const { logout } = useAuth();
