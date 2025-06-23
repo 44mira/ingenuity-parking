@@ -105,7 +105,7 @@ export default function ReservationForm() {
 
   useEffect(() => {
     if (current_user) {
-      form.resetField("owner", current_user);
+      form.resetField("owner", current_user.id);
     }
   }, [current_user]);
   useEffect(() => {
