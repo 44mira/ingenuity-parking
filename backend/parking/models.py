@@ -77,6 +77,7 @@ class ParkingReservation(models.Model):
         _("Status"),
         max_length=15,
         choices=Status.choices,
+        default=Status.UPCOMING,
         help_text="The status of this reservation.",
     )
 

@@ -6,6 +6,7 @@ import AdminHome from "./pages/AdminHome";
 
 import DashboardLayout from "@/components/DashboardLayout.tsx";
 import LocationList from "./pages/LocationList";
+import ReservationList from "./pages/ReservationList";
 import AdminProfile from "./pages/AdminProfile";
 import Login from "./pages/Login";
 
@@ -13,6 +14,8 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 import { AuthProvider } from "@/api/auth";
 import RequireAuth from "./components/RequireAuth";
+import LocationForm from "./components/LocationForm";
+import ReservationForm from "./components/ReservationForm";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +28,16 @@ createRoot(document.getElementById("root")!).render(
             <Route element={<RequireAuth />}>
               <Route path="admin" element={<DashboardLayout />}>
                 <Route index element={<AdminHome />} />
-                <Route path="locations" element={<LocationList />} />
+                <Route path="locations">
+                  <Route index element={<LocationList />} />
+                  <Route path="create" element={<LocationForm />} />
+                  <Route path="update/:id" element={<LocationForm />} />
+                </Route>
+                <Route path="reservations">
+                  <Route index element={<ReservationList />} />
+                  <Route path="create" element={<ReservationForm />} />
+                  <Route path="update/:id" element={<ReservationForm />} />
+                </Route>
                 <Route path="profile" element={<AdminProfile />} />
               </Route>
             </Route>
