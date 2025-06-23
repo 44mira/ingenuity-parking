@@ -106,11 +106,15 @@ export async function reservation_delete(user: string, id: number) {
 }
 
 export async function reservation_cancel(user: string, id: number) {
-  const response = await api.post(`/parking/reservation/${id}/cancel`, {
-    headers: {
-      Authorization: `Token ${user}`,
+  const response = await api.post(
+    `/parking/reservation/${id}/cancel/`,
+    {},
+    {
+      headers: {
+        Authorization: `Token ${user}`,
+      },
     },
-  });
+  );
 
   return response.data;
 }

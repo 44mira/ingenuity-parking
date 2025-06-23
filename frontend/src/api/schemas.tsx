@@ -141,6 +141,7 @@ export const reservationColumns: ColumnDef<Reservation>[] = [
     id: "actions",
     cell: ({ row }) => {
       const id = row.original.id;
+      const navigate = useNavigate();
       const queryClient = useQueryClient();
       const { user } = useAuth();
       const deleteMutation = useMutation({
@@ -173,7 +174,9 @@ export const reservationColumns: ColumnDef<Reservation>[] = [
           <Button variant="outline" onClick={() => deleteMutation.mutate()}>
             <Trash size={20} color="red" />
           </Button>
-          <Pencil size={20} color="gray" />
+          <Button variant="outline" onClick={() => navigate(`update/${id}/`)}>
+            <Pencil size={20} color="gray" />
+          </Button>
         </div>
       );
     },
