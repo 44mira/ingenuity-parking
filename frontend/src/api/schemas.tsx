@@ -1,10 +1,25 @@
 import type { ColumnDef } from "@tanstack/react-table";
+import { Trash, Pencil } from "lucide-react";
 
 export type Location = {
   id: number;
   slots: number;
   available_slots: number;
   name: string;
+};
+
+export type Reservation = {
+  id: number;
+  location: {
+    name: string;
+  };
+  price: string;
+  price_currency: string;
+  status: "ACTIVE" | "UPCOMING" | "CANCELLED" | "PAST";
+  reserve_start: string;
+  reserve_end: string;
+  created_at: string;
+  owner: number;
 };
 
 export const locationColumns: ColumnDef<Location>[] = [
@@ -23,5 +38,62 @@ export const locationColumns: ColumnDef<Location>[] = [
   {
     accessorKey: "slots",
     header: "Total Slots",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center gap-2 px-2">
+          <Trash size={20} color="red" />
+          <Pencil size={20} color="gray" />
+        </div>
+      );
+    },
+  },
+];
+
+export const reservationColumns: ColumnDef<Reservation>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "location.name",
+    header: "Location",
+  },
+  {
+    accessorKey: "price_currency",
+    header: "Currency",
+  },
+  {
+    accessorKey: "price",
+    header: "Price",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+  },
+  {
+    accessorKey: "reserve_start",
+    header: "Start Time",
+  },
+  {
+    accessorKey: "reserve_end",
+    header: "End Time",
+  },
+  {
+    accessorKey: "created_at",
+    header: "Created At",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center gap-2 px-2">
+          <Trash size={20} color="red" />
+          <Pencil size={20} color="gray" />
+        </div>
+      );
+    },
   },
 ];

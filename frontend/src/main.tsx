@@ -6,6 +6,7 @@ import AdminHome from "./pages/AdminHome";
 
 import DashboardLayout from "@/components/DashboardLayout.tsx";
 import LocationList from "./pages/LocationList";
+import ReservationList from "./pages/ReservationList";
 import AdminProfile from "./pages/AdminProfile";
 import Login from "./pages/Login";
 
@@ -26,6 +27,7 @@ createRoot(document.getElementById("root")!).render(
               <Route path="admin" element={<DashboardLayout />}>
                 <Route index element={<AdminHome />} />
                 <Route path="locations" element={<LocationList />} />
+                <Route path="reservations" element={<ReservationList />} />
                 <Route path="profile" element={<AdminProfile />} />
               </Route>
             </Route>

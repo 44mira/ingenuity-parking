@@ -40,3 +40,13 @@ export async function location_list(user: string) {
 
   return response.data;
 }
+
+export async function reservation_list(user: string) {
+  const response = await api.get("/parking/reservation/", {
+    headers: {
+      Authorization: `Token ${user}`,
+    },
+  });
+
+  return response.data;
+}
