@@ -76,14 +76,38 @@ export const reservationColumns: ColumnDef<Reservation>[] = [
   {
     accessorKey: "reserve_start",
     header: "Start Time",
+    cell: ({ row }) => {
+      const formatted = new Date(row.getValue("reserve_start"));
+      return (
+        <div className="text-left font-medium">
+          {formatted.toLocaleString()}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "reserve_end",
     header: "End Time",
+    cell: ({ row }) => {
+      const formatted = new Date(row.getValue("reserve_end"));
+      return (
+        <div className="text-left font-medium">
+          {formatted.toLocaleString()}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "created_at",
     header: "Created At",
+    cell: ({ row }) => {
+      const formatted = new Date(row.getValue("created_at"));
+      return (
+        <div className="text-left font-medium">
+          {formatted.toLocaleString()}
+        </div>
+      );
+    },
   },
   {
     id: "actions",
