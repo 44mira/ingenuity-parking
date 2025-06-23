@@ -12,8 +12,8 @@ dashboard charts were done with Chart.js.
 npm install
 
 # for testing
-npm build
-npm test
+npm run build
+npm run test
 
 # run dev server
 npm run dev
