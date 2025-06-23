@@ -60,3 +60,13 @@ export async function reservation_delete(user: string, id: number) {
 
   return response.data;
 }
+
+export async function location_delete(user: string, id: number) {
+  const response = await api.delete(`/parking/location/${id}/`, {
+    headers: {
+      Authorization: `Token ${user}`,
+    },
+  });
+
+  return response.data;
+}

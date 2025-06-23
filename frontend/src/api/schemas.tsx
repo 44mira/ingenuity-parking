@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Trash, Pencil, X } from "lucide-react";
 import { useAuth } from "./auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { reservation_delete } from "./queries";
+import { reservation_delete, location_delete } from "./queries";
 
 export type Location = {
   id: number;
@@ -46,9 +46,26 @@ export const locationColumns: ColumnDef<Location>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      const queryClient = useQueryClient();
+      const id = row.original.id;
+      const { user } = useAuth();
+      const mutation = useMutation({
+        mutationFn: () => {
+          return location_delete(user, id);
+        },
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["location-list", user],
+          });
+        },
+      });
+
       return (
         <div className="flex items-center gap-2 px-2">
-          <Trash size={20} color="red" />
+          <X size={20} color="red" />
+          <Button variant="outline" onClick={() => mutation.mutate()}>
+            <Trash size={20} color="red" />
+          </Button>
           <Pencil size={20} color="gray" />
         </div>
       );
