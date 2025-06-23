@@ -1,5 +1,9 @@
 "use client";
 
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router";
+import { useEffect } from "react";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -15,20 +19,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+
 import {
   location_create,
   location_detail,
   location_update,
 } from "@/api/queries";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate, useParams } from "react-router";
-import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string(),
   slots: z.coerce.number(),
 });
-
 export type locationForm = z.infer<typeof formSchema>;
 
 export default function LocationForm() {

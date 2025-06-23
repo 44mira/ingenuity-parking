@@ -1,11 +1,13 @@
-import { locationColumns } from "@/api/schemas";
-import { location_list } from "@/api/queries";
-import { DataTable } from "@/components/ui/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/api/auth";
+import { useNavigate } from "react-router";
+
+import { DataTable } from "@/components/ui/data-table";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router";
+
+import { locationColumns } from "@/api/schemas";
+import { location_list } from "@/api/queries";
 
 function LocationListTable() {
   const { user } = useAuth();

@@ -1,12 +1,13 @@
 "use client";
 
+import { useNavigate } from "react-router";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/api/auth";
 
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router";
 import {
   Form,
   FormControl,
@@ -21,12 +22,13 @@ const formSchema = z.object({
   username: z.string().min(1).max(50),
   password: z.string().min(1),
 });
+type adminLoginForm = z.infer<typeof formSchema>;
 
 export default function AdminLoginForm() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<adminLoginForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
@@ -34,7 +36,7 @@ export default function AdminLoginForm() {
     },
   });
 
-  const onSubmit = (e: z.infer<typeof formSchema>) => {
+  const onSubmit = (e: adminLoginForm) => {
     login(e);
     navigate("/admin/");
   };

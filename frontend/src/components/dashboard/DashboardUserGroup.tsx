@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
-import { User } from "lucide-react";
 
+import { User } from "lucide-react";
 import {
   SidebarGroup,
   SidebarGroupContent,
