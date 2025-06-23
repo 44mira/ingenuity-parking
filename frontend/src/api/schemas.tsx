@@ -4,6 +4,7 @@ import { Trash, Pencil, X } from "lucide-react";
 import { useAuth } from "./auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { reservation_delete, location_delete } from "./queries";
+import { useNavigate } from "react-router";
 
 export type Location = {
   id: number;
@@ -47,6 +48,7 @@ export const locationColumns: ColumnDef<Location>[] = [
     id: "actions",
     cell: ({ row }) => {
       const queryClient = useQueryClient();
+      const navigate = useNavigate();
       const id = row.original.id;
       const { user } = useAuth();
       const mutation = useMutation({
@@ -62,11 +64,12 @@ export const locationColumns: ColumnDef<Location>[] = [
 
       return (
         <div className="flex items-center gap-2 px-2">
-          <X size={20} color="red" />
           <Button variant="outline" onClick={() => mutation.mutate()}>
             <Trash size={20} color="red" />
           </Button>
-          <Pencil size={20} color="gray" />
+          <Button variant="outline" onClick={() => navigate(`update/${id}/`)}>
+            <Pencil size={20} color="gray" />
+          </Button>
         </div>
       );
     },
