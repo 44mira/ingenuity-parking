@@ -3,6 +3,7 @@ from django.db.models import Count, ExpressionWrapper, F, IntegerField, Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from parking.api.v1.serializers import (ParkingLocationSerializer,
@@ -34,13 +35,13 @@ class ParkingLocationViewSet(viewsets.ModelViewSet):
     serializer_class = ParkingLocationSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ["name"]
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
 
 
 class ParkingReservationViewSet(viewsets.ModelViewSet):
     serializer_class = ParkingReservationSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     search_fields = ["location__name"]
     filterset_fields = [
         "reserve_start",
@@ -80,7 +81,7 @@ class ParkingReservationViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ["username"]
     filterset_fields = ["is_staff", "is_active"]
