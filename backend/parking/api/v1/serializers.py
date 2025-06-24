@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django_restql.fields import NestedField
 from django_restql.mixins import DynamicFieldsMixin
 from django_restql.serializers import NestedModelSerializer
@@ -24,3 +25,16 @@ class ParkingReservationSerializer(DynamicFieldsMixin, NestedModelSerializer):
     class Meta:
         model = ParkingReservation
         fields = "__all__"
+
+
+class UserSerializer(DynamicFieldsMixin, serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "pk",
+            "username",
+            "is_active",
+            "is_staff",
+            "last_login",
+            "date_joined",
+        ]
