@@ -6,6 +6,8 @@ done with Zod and React Hook Form. Queries to the backend were done with axios
 and TanStack Query. Data was displayed using TanStack Table. Lastly, the
 dashboard charts were done with Chart.js.
 
+Most of the complete routes can be found within `/admin` and `/login`.
+
 ## Running locally
 
 ```bash

@@ -38,3 +38,21 @@ the PRs.
   - Reviewing PRs
 - ChatGPT, Claude
   - Debugging Frontend
+
+## Personal notes
+
+I was unfortunately unable to fully complete the user stories and implement a
+proper frontend implementation of the project due to time constraints and
+burnout from dedicating about double the hours any human being should probably
+commit to a week-long project (not to mention my ongoing internship hahah).
+
+Moreover, I admit that my frontend capabilities are definitely not equal to my
+backend experience (in a bad way) and I would very much like to improve upon it
+by working with much more experienced developers.
+
+Lastly, as you can see by the open issues in the repository, I had originally
+planned on setting up asynchronous tasks via Celery and RabbitMQ but I
+unfortunately had to scrap that in favor of setting up basic CRUD functionality
+for the frontend, which was incredibly time-consuming (especially auth). But
+that would have allowed me to dynamically set the status and send notification
+items to the users.
