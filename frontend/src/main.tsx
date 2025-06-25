@@ -8,6 +8,7 @@ import DashboardLayout from "@/components/DashboardLayout.tsx";
 import LocationList from "./pages/LocationList";
 import ReservationList from "./pages/ReservationList";
 import AdminProfile from "./pages/AdminProfile";
+import UserList from "./pages/UserList";
 import Login from "./pages/Login";
 
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
@@ -37,6 +38,9 @@ createRoot(document.getElementById("root")!).render(
                   <Route index element={<ReservationList />} />
                   <Route path="create" element={<ReservationForm />} />
                   <Route path="update/:id" element={<ReservationForm />} />
+                </Route>
+                <Route path="users">
+                  <Route index element={<UserList />} />
                 </Route>
                 <Route path="profile" element={<AdminProfile />} />
               </Route>
