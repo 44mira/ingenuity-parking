@@ -31,6 +31,15 @@ export type Reservation = {
   owner: number;
 };
 
+export type User = {
+  pk: number;
+  username: string;
+  is_active: boolean;
+  is_staff: boolean;
+  last_login: string;
+  date_joined: string;
+};
+
 export const locationColumns: ColumnDef<Location>[] = [
   {
     accessorKey: "id",
@@ -179,6 +188,51 @@ export const reservationColumns: ColumnDef<Reservation>[] = [
           <Button variant="outline" onClick={() => navigate(`update/${id}/`)}>
             <Pencil size={20} color="gray" />
           </Button>
+        </div>
+      );
+    },
+  },
+];
+
+export const userColumns: ColumnDef<User>[] = [
+  {
+    accessorKey: "pk",
+    header: "ID",
+  },
+  {
+    accessorKey: "username",
+    header: "Username",
+  },
+  {
+    accessorKey: "is_active",
+    header: "Active",
+    cell: ({ row }) => (row.getValue("is_active") ? "Yes" : "No"),
+  },
+  {
+    accessorKey: "is_staff",
+    header: "Staff",
+    cell: ({ row }) => (row.getValue("is_staff") ? "Yes" : "No"),
+  },
+  {
+    accessorKey: "last_login",
+    header: "Last Login",
+    cell: ({ row }) => {
+      const formatted = new Date(row.getValue("last_login"));
+      return (
+        <div className="text-left font-medium">
+          {formatted.toLocaleString()}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "date_joined",
+    header: "Date Joined",
+    cell: ({ row }) => {
+      const formatted = new Date(row.getValue("date_joined"));
+      return (
+        <div className="text-left font-medium">
+          {formatted.toLocaleString()}
         </div>
       );
     },

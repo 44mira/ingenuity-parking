@@ -153,3 +153,13 @@ export async function reservation_detail(user: string, id: string) {
 
   return response.data;
 }
+
+export async function user_list(user: string) {
+  const response = await api.get("/parking/user/", {
+    headers: {
+      Authorization: `Token ${user}`,
+    },
+  });
+
+  return response.data;
+}
